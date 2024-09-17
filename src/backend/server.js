@@ -2,13 +2,6 @@ import express from "express";
 import axios from "axios";
 import bodyParser from "body-parser";
 import cors from "cors";
-import path from "path";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
-
-// Create __dirname since it's not available with ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const app = express();
 
@@ -18,12 +11,9 @@ app.use(bodyParser.json());
 // Updated CORS to allow localhost during development
 app.use(
   cors({
-    origin: "http://localhost:5173", // Change this to your frontend domain in production
+    origin: "https://66e8f63b5b25ea6e726b1ce7--ephemeral-conkies-b48ef7.netlify.app", // Change this to your frontend domain in production
   })
 );
-
-// Serve React static files
-app.use(express.static(path.join(__dirname, "build")));
 
 // Helper function to generate a unique order ID
 const generateOrderId = () => {
@@ -111,11 +101,6 @@ app.post("/create-order", async (req, res) => {
       details: error.response ? error.response.data : error.message,
     });
   }
-});
-
-// Serve `index.html` for any unknown routes (for React Router)
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 // Server Port
